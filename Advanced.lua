@@ -14,6 +14,59 @@ function GetMapScriptInfo()
 		CustomOptions = 
 		{
 			{
+				Name = "Continent grain",
+				Values = 
+				{
+					"1",
+					"2",
+					"3",
+					"4",
+					"5",
+					"6",
+					"7",
+					"8",
+					"9",
+				},
+				DefaultValue = 3,
+				SortPriority = 1,
+			},
+			
+			{
+				Name = "Rift grain",
+				Values = 
+				{
+					"0",
+					"1",
+					"2",
+					"3",
+				},
+				DefaultValue = 1,
+				SortPriority = 2,
+			},
+
+			{
+				Name = "Invert heights",
+				Values = 
+				{
+					"False",
+					"True",
+				},
+				DefaultValue = 1,
+				SortPriority = 3,
+			},
+			
+			{
+				Name = "Polar",
+				Values = 
+				{
+					"False",
+					"True",
+				},
+				DefaultValue = 2,
+				SortPriority = 4,
+			},
+			
+			{
 				Name = "Water, percent",
 				Values = 
 				{
@@ -28,7 +81,7 @@ function GetMapScriptInfo()
 					"90",
 				},
 				DefaultValue = 7,
-				SortPriority = 1,
+				SortPriority = 5,
 			},
 			
 			{
@@ -47,7 +100,7 @@ function GetMapScriptInfo()
 					"9",
 				},
 				DefaultValue = 4,
-				SortPriority = 2,
+				SortPriority = 6,
 			},
 			
 			{
@@ -66,7 +119,7 @@ function GetMapScriptInfo()
 					"9",
 				},
 				DefaultValue = 1,
-				SortPriority = 3,
+				SortPriority = 7,
 			},
 			{
 				Name = "Adjust plates, times",
@@ -82,7 +135,7 @@ function GetMapScriptInfo()
 					"2.00",
 				},
 				DefaultValue = 4,
-				SortPriority = 4,
+				SortPriority = 8,
 			},
 
 			{
@@ -93,7 +146,7 @@ function GetMapScriptInfo()
 					"True",
 				},
 				DefaultValue = 1,
-				SortPriority = 5,
+				SortPriority = 9,
 			},
 
 			{
@@ -104,18 +157,18 @@ function GetMapScriptInfo()
 					"True",
 				},
 				DefaultValue = 1,
-				SortPriority = 6,
+				SortPriority = 10,
 			},
 			
 			{
-				Name = "Has center rift",
+				Name = "Has centre rift",
 				Values = 
 				{
 					"False",
 					"True",
 				},
 				DefaultValue = 1,
-				SortPriority = 7,
+				SortPriority = 11,
 			},
 			
 			--hills_ridge_flags = args.hills_ridge_flags or self.iFlags;
@@ -130,22 +183,33 @@ function GeneratePlotTypes()
 	print("Generating Plot Types ...");
 
 	local fractal_world = FractalWorld.Create();
-	fractal_world:InitFractal{continent_grain = 5};
+	
+	local cg = Map.GetCustomOption(1);
+	local rg = Map.GetCustomOption(2) - 1; -- Default no rifts. Set grain to between 1 and 3 to add rifts. - Bob
+	local ih = Map.GetCustomOption(3) == 2;
+	local plr = Map.GetCustomOption(4) == 2;
+	--local ridge_flags = args.ridge_flags or self.iFlags;
+	print("continent_grain", cg)
+	print("rift_grain", rg)
+	print("invert_heights", ih)
+	print("polar", plr)
+	
+	fractal_world:InitFractal{continent_grain = cg, rift_grain = rg, invert_heights = ih, polar = plr};
 	
 	
 	local args = {};
 	args.sea_level = 2; -- Default is Medium sea level.
 	args.world_age = 2; -- Default is 4 Billion Years old.
 	
-	args.sea_level_normal = Map.GetCustomOption(1) * 10;
-	args.world_age_normal = Map.GetCustomOption(2) - 1;
-	args.extra_mountains = Map.GetCustomOption(3) - 1;
-	args.adjust_plates = Map.GetCustomOption(4) / 4;
-	args.shift_plot_types = Map.GetCustomOption(5) == 2;
-	args.tectonic_islands = Map.GetCustomOption(6) == 2;
+	args.sea_level_normal = Map.GetCustomOption(5) * 10;
+	args.world_age_normal = Map.GetCustomOption(6) - 1;
+	args.extra_mountains = Map.GetCustomOption(7) - 1;
+	args.adjust_plates = Map.GetCustomOption(8) / 4;
+	args.shift_plot_types = Map.GetCustomOption(9) == 2;
+	args.tectonic_islands = Map.GetCustomOption(10) == 2;
 	--args.hills_ridge_flags = self.iFlags;
 	--args.peaks_ridge_flags = self.iFlags;
-	args.has_center_rift = Map.GetCustomOption(7) == 2;
+	args.has_center_rift = Map.GetCustomOption(11) == 2;
 	
 	for key,value in pairs(args) do print(key,value) end
 
