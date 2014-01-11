@@ -7,8 +7,8 @@ include("TerrainGenerator");
 ------------------------------------------------------------------------------
 function GetMapScriptInfo()
 	return {
-		Name = "Advanced",
-		Description = "Coplete control of generators",
+		Name = "AdvancedFractalWorld",
+		Description = "Complete control of FractalWorld generator",
 		IsAdvancedMap = true,
 		IconIndex = 17,
 		CustomOptions = 
@@ -70,15 +70,105 @@ function GetMapScriptInfo()
 				Name = "Water, percent",
 				Values = 
 				{
+					"1",
+					"2",
+					"3",
+					"4",
+					"5",
+					"6",
+					"7",
+					"8",
+					"9",
 					"10",
+					"11",
+					"12",
+					"13",
+					"14",
+					"15",
+					"16",
+					"17",
+					"18",
+					"19",
 					"20",
+					"21",
+					"22",
+					"23",
+					"24",
+					"25",
+					"26",
+					"27",
+					"28",
+					"29",
 					"30",
+					"31",
+					"32",
+					"33",
+					"34",
+					"35",
+					"36",
+					"37",
+					"38",
+					"39",
 					"40",
+					"41",
+					"42",
+					"43",
+					"44",
+					"45",
+					"46",
+					"47",
+					"48",
+					"49",
 					"50",
+					"51",
+					"52",
+					"53",
+					"54",
+					"55",
+					"56",
+					"57",
+					"58",
+					"59",
 					"60",
+					"61",
+					"62",
+					"63",
+					"64",
+					"65",
+					"66",
+					"67",
+					"68",
+					"69",
 					"70",
+					"71",
+					"72",
+					"73",
+					"74",
+					"75",
+					"76",
+					"77",
+					"78",
+					"79",
 					"80",
+					"81",
+					"82",
+					"83",
+					"84",
+					"85",
+					"86",
+					"87",
+					"88",
+					"89",
 					"90",
+					"91",
+					"92",
+					"93",
+					"94",
+					"95",
+					"96",
+					"97",
+					"98",
+					"99",
 				},
 				DefaultValue = 7,
 				SortPriority = 5,
@@ -171,9 +261,32 @@ function GetMapScriptInfo()
 				SortPriority = 11,
 			},
 			
-			--hills_ridge_flags = args.hills_ridge_flags or self.iFlags;
-			--peaks_ridge_flags = args.peaks_ridge_flags or self.iFlags;
-			}
+			{
+				Name = "Starting points division",
+				Values = 
+				{
+					"Biggest Landmass",
+					"Per continents",
+					"Whole map",
+				},
+				DefaultValue = 2,
+				SortPriority = 12,
+			},
+			
+			{
+				Name = "Resource division",
+				Values = 
+				{
+					"Sparse",
+					"Default",
+					"Abundant",
+					"Legendary Start",
+					"Strategic Balance",
+				},
+				DefaultValue = 2,
+				SortPriority = 13,
+			},
+		}
 	}
 end
 ------------------------------------------------------------------------------
@@ -201,7 +314,7 @@ function GeneratePlotTypes()
 	args.sea_level = 2; -- Default is Medium sea level.
 	args.world_age = 2; -- Default is 4 Billion Years old.
 	
-	args.sea_level_normal = Map.GetCustomOption(5) * 10;
+	args.sea_level_normal = Map.GetCustomOption(5);
 	args.world_age_normal = Map.GetCustomOption(6) - 1;
 	args.extra_mountains = Map.GetCustomOption(7) - 1;
 	args.adjust_plates = Map.GetCustomOption(8) / 4;
@@ -255,8 +368,10 @@ function StartPlotSystem()
 	-- Regional Division Method 3: Rectangular Division
 	local args = 
 	{
-		method = 3
+		method = Map.GetCustomOption(12),
+		resources = Map.GetCustomOption(13),
 	};
+	for key,value in pairs(args) do print(key,value) end
 	
 	start_plot_database:GenerateRegions(args)
 
