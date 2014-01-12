@@ -286,6 +286,17 @@ function GetMapScriptInfo()
 				DefaultValue = 2,
 				SortPriority = 13,
 			},
+
+			{
+				Name = "Start must be coast",
+				Values = 
+				{
+					"False",
+					"True",
+				},
+				DefaultValue = 1,
+				SortPriority = 14,
+			},
 		}
 	}
 end
@@ -380,12 +391,13 @@ function StartPlotSystem()
 	-- Lowering start position minimum eligibility thresholds.
 	local args = 
 	{
-		mustBeCoast = true,
-		minFoodMiddle = 2,
-		minProdMiddle = 1,
-		minFoodOuter = 2,
-		minProdOuter = 1
+		mustBeCoast = Map.GetCustomOption(14) == 2,
+	--	minFoodMiddle = 2,
+	--	minProdMiddle = 1,
+	--	minFoodOuter = 2,
+	--	minProdOuter = 1
 	};
+	for key,value in pairs(args) do print(key,value) end
 	start_plot_database:ChooseLocations(args)
 	
 	print("Normalizing start locations and assigning them to Players.");
@@ -397,8 +409,5 @@ function StartPlotSystem()
 	print("Placing Resources and City States.");
 	start_plot_database:PlaceResourcesAndCityStates()
 	
-	-- tell the AI that we should treat this as a naval + offshore expansion map
-	Map.ChangeAIMapHint(1+4);
-
 end
 ------------------------------------------------------------------------------
